@@ -1,6 +1,7 @@
 package com.ironhack.labweek9.service;
 
 import com.ironhack.labweek9.model.Employee;
+import com.ironhack.labweek9.model.EmployeeDepartmentOnlyDTO;
 import com.ironhack.labweek9.model.EmployeeStatusOnlyDTO;
 import com.ironhack.labweek9.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,12 @@ public class EmployeeService {
     public Employee updateEmployeeStatus(Integer id, EmployeeStatusOnlyDTO status) {
         Employee employee = employeeRepository.findById(id).get();
         employee.setStatus(status.getStatus());
+        return employeeRepository.save(employee);
+    }
+
+    public Employee updateEmployeeDepartment(Integer id, EmployeeDepartmentOnlyDTO department) {
+        Employee employee = employeeRepository.findById(id).get();
+        employee.setDepartment(department.getDepartment());
         return employeeRepository.save(employee);
     }
 }
