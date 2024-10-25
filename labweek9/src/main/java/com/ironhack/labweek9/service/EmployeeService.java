@@ -20,7 +20,9 @@ public class EmployeeService {
     }
 
     public Employee updateEmployeeStatus(Integer id, EmployeeStatusOnlyDTO status) {
-        Employee employee = employeeRepository.findById(id).get();
+        Optional<Employee> optEmployee = employeeRepository.findById(id);
+        if(optEmployee.isEmpty()) return null;
+        Employee employee = optEmployee.get();
         employee.setStatus(status.getStatus());
         return employeeRepository.save(employee);
     }
