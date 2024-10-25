@@ -7,6 +7,8 @@ import com.ironhack.labweek9.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class EmployeeService {
@@ -24,8 +26,14 @@ public class EmployeeService {
     }
 
     public Employee updateEmployeeDepartment(Integer id, EmployeeDepartmentOnlyDTO department) {
-        Employee employee = employeeRepository.findById(id).get();
-        employee.setDepartment(department.getDepartment());
-        return employeeRepository.save(employee);
+        Optional<Employee> optEmployee = employeeRepository.findById(id);
+        if(optEmployee.isEmpty()) return null;
+        Employee employee = optEmployee.get();
+        String departmentName = department.getDepartment();
+        if(departmentName != null || !departmentName.isEmpty()) {
+            employee.setDepartment(departmentName);
+            return employeeRepository.save(employee);
+        }
+        return employee;
     }
 }
